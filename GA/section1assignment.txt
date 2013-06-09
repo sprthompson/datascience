@@ -1,0 +1,43 @@
+# File used
+# http://www.sagepub.com/dsur/study/DSUR%20Data%20Files/Chapter%207/Album%20Sales%202.dat
+# Aim was to see what could predict record sales, based on advertising budget, radio 1 airplay prior to release, and the 'attractiveness' of the band.
+
+data <- read.table("http://www.sagepub.com/dsur/study/DSUR%20Data%20Files/Chapter%207/Album%20Sales%202.dat", h=T)
+
+#ran the multiple regression
+
+model <- lm(sales ~ ., data=data)
+summary(model)
+
+# The model would be:
+# sales = -26.61 + (0.08 * adverts) + (3.36 * airplay) + (11.09 attract)
+# So attractivness is the biggest factor.
+# R2 for above is 0.6647, want to check stepAIC R2
+
+step <- stepAIC(model, direction="both")
+summary(step)
+
+# it kept them all!
+
+# Will make a model just using attractiveness and them make a poly regression
+
+attract.model <- lm(sales ~ attract, data)
+
+summary(attract.model)
+
+# has R2 intercet 65.510 and coef 18.861, R2 is .1063
+# now try polynom
+
+attract.pmodel <- lm(sales ~ poly(attract,2), data)
+
+# intercep 193.2, coefficients> attract 1 371.244, attract 2 -94.107, R2 0.1132
+# R2 is better, don't know how to make a formula using those coefficients.
+#trying poly 3, 4, 5 gradually makes R2 improve (very small increments).
+
+# now to try lm.ridge
+
+ridge <- lm.ridge(sales ~ ., data)
+summary(ridge)
+
+help(lm.ridge)
+
