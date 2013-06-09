@@ -39,5 +39,3 @@ attract.pmodel <- lm(sales ~ poly(attract,2), data)
 ridge <- lm.ridge(sales ~ ., data)
 summary(ridge)
 
-help(lm.ridge)
-
