@@ -37,5 +37,5 @@ for (n in 1:tests) {
 cat ('Running ',tests,' tests with K=', K,' gives an average standardisation error of ', round(mean(errors)*100,2), '%\n')
 bestk <- rbind(bestk,c(round(mean(errors)*100,2),K))
 }
-print(bestk)
-# I wanted to find which was the lowest to reccomend the best K value but could not work out how to do that!
+bestrow = match(min(bestk[,1]),bestk)
+cat ('Lowest error value',min(bestk[,1]),'% using k=', bestrow)
